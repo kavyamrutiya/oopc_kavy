@@ -14,7 +14,7 @@ public:
         float temp_balance;
         cout << "Enter your Account number : ";
         cin >> account_number;
-        cout << "Enter Accoutn holder name : ";
+        cout << "Enter Account holder name : ";
         cin >> account_holder_name;
         cout << "Enter balance : ";
         cin >> temp_balance;
