@@ -3,56 +3,56 @@ using namespace std;
 
 class Bank_account
 {
-    static int minimum_balance;
-    int account_number;
-    string account_holder_name;
-    float balance;
+    static int Minimum_balance;
+    int Account_number;
+    string Account_holder_name;
+    float Balance;
 
 public:
-    void add_account()
+    void Add_account()
     {
-        float temp_balance;
+        float Temp_balance;
         cout << "Enter your Account number : ";
-        cin >> account_number;
+        cin >> Account_number;
         cout << "Enter Account holder name : ";
-        cin >> account_holder_name;
-        cout << "Enter balance : ";
-        cin >> temp_balance;
-        if (temp_balance >= minimum_balance)
+        cin >> Account_holder_name;
+        cout << "Enter Balance : ";
+        cin >> Temp_balance;
+        if (Temp_balance >= Minimum_balance)
         {
-            balance = temp_balance;
+            Balance = Temp_balance;
         }
         else
         {
-            cout << "ERROR : Enter amount greater than or equal to " << minimum_balance << endl;
+            cout << "ERROR : Enter amount greater than or equal to " << Minimum_balance << endl;
         }
     }
-    void deposit()
+    void Deposit()
     {
-        float temp_amount;
+        float Temp_amount;
         cout << "Enter amount to be deposited : ";
-        cin >> temp_amount;
-        balance = balance + temp_amount;
+        cin >> Temp_amount;
+        Balance = Balance + Temp_amount;
         cout << "Amount deposited successfuly : " << endl;
     }
-    void withdraw()
+    void Withdraw()
     {
-        float temp_amount;
+        float Temp_amount;
         cout << "Enter amount to withdrawn : ";
-        cin >> temp_amount;
-        if (balance - temp_amount >= minimum_balance)
+        cin >> Temp_amount;
+        if (Balance - Temp_amount >= Minimum_balance)
         {
-            balance = balance - temp_amount;
-            cout << "RS." << temp_amount << " withdrawm successffuly" << endl;
+            Balance = Balance - Temp_amount;
+            cout << "RS." << Temp_amount << " withdrawm successffuly" << endl;
         }
         else
         {
             cout << "ERROR : INSUFFICENT BALANCE " << endl;
         }
     }
-    int check(int temp_account_number)
+    int Search(int Temp_account_number)
     {
-        if (account_number == temp_account_number)
+        if (Account_number == Temp_account_number)
         {
             return 1;
         }
@@ -61,45 +61,45 @@ public:
             return 0;
         }
     }
-    void display_details()
+    void Display_details()
     {
-        cout << "Account holder name : " << account_holder_name << endl;
-        cout << "Account Number : " << account_number << endl;
-        cout << "Account balance : " << balance << endl;
+        cout << "\nAccount holder name : " << Account_holder_name << endl;
+        cout << "Account Number : " << Account_number << endl;
+        cout << "Account Balance : " << Balance << endl;
     }
 };
-int Bank_account ::minimum_balance = 5000;
+int Bank_account ::Minimum_balance = 5000;
 int main()
 {
-    int choice, account_count = 0, temp_account_number, i;
+    int Choice, Account_count = 0, Temp_account_number, i;
     Bank_account a[10];
     do
     {
-        cout << "Enter 1 to add account" << endl;
-        cout << "Enter 2 to deposit amount" << endl;
-        cout << "Enter 3 to withdraw amount" << endl;
+        cout << "\nEnter 1 to add account" << endl;
+        cout << "Enter 2 to Deposit amount" << endl;
+        cout << "Enter 3 to Withdraw amount" << endl;
         cout << "Enter 4 to display Account details" << endl;
         cout << "Enter 0 to exit" << endl;
-        cout << "Enter your choice : ";
-        cin >> choice;
+        cout << "Enter your Choice : ";
+        cin >> Choice;
 
-        switch (choice)
+        switch (Choice)
         {
         case 1:
-            a[account_count].add_account();
-            account_count++;
+            a[Account_count].Add_account();
+            Account_count++;
             break;
         case 2:
             cout << "Enter account number : ";
-            cin >> temp_account_number;
-            for (i = 0; i < account_count; i++)
+            cin >> Temp_account_number;
+            for (i = 0; i < Account_count; i++)
             {
-                if (a[i].check(temp_account_number))
+                if (a[i].Search(Temp_account_number))
                 {
-                    a[i].deposit();
+                    a[i].Deposit();
                     break;
                 }
-                else if (i == account_count - 1)
+                else if (i == Account_count - 1)
                 {
                     cout << "ERROR : INVALID ACCOUNT NUMBER" << endl;
                 }
@@ -107,15 +107,15 @@ int main()
             break;
         case 3:
             cout << "Enter account number : ";
-            cin >> temp_account_number;
-            for (i = 0; i < account_count; i++)
+            cin >> Temp_account_number;
+            for (i = 0; i < Account_count; i++)
             {
-                if (a[i].check(temp_account_number))
+                if (a[i].Search(Temp_account_number))
                 {
-                    a[i].withdraw();
+                    a[i].Withdraw();
                     break;
                 }
-                else if (i == account_count - 1)
+                else if (i == Account_count - 1)
                 {
                     cout << "ERROR : INVALID ACCOUNT NUMBER" << endl;
                 }
@@ -123,15 +123,15 @@ int main()
             break;
         case 4:
             cout << "Enter account number : ";
-            cin >> temp_account_number;
-            for (i = 0; i < account_count; i++)
+            cin >> Temp_account_number;
+            for (i = 0; i < Account_count; i++)
             {
-                if (a[i].check(temp_account_number))
+                if (a[i].Search(Temp_account_number))
                 {
-                    a[i].display_details();
+                    a[i].Display_details();
                     break;
                 }
-                else if (i == account_count - 1)
+                else if (i == Account_count - 1)
                 {
                     cout << "ERROR : INVALID ACCOUNT NUMBER" << endl;
                 }
@@ -139,6 +139,6 @@ int main()
             break;
         }
 
-    } while (choice != 0);
+    } while (Choice != 0);
     return 0;
 }
