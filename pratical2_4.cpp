@@ -1,152 +1,172 @@
 #include <iostream>
 using namespace std;
 
-class Product {
-    int Product_Id;
-    int Product_Quantity;
-    string Product_Name;
-    float Product_Price;
+class Product
+{
+    int Product_id;
+    int Product_quantity;
+    string Product_name;
+    float Product_price;
+    int User_quantitty = 0;
+
+    float Display_total(float Price, int quantity)
+    {
+        return Price * quantity;
+    }
 
 public:
-    Product() {
-        Product_Id = 0;
-        Product_Quantity = 0;
-        Product_Name = "N/A";
-        Product_Price = 0.0;
+    void Add(int Id, int Quantitty, string Name, float Price)
+    {
+        Product_id = Id;
+        Product_quantity = Quantitty;
+        Product_name = Name;
+        Product_price = Price;
     }
 
-    void Add(int id, int quantity, string name, float price) {
-        Product_Id = id;
-        Product_Quantity = quantity;
-        Product_Name = name;
-        Product_Price = price;
-    }
-
-    int check(int idno) {
-        return Product_Id == idno;
-    }
-
-    void update() {
-        int add_qty;
-        cout << "Enter quantity to add: ";
-        cin >> add_qty;
-        Product_Quantity += add_qty;
-        cout << "Stock updated successfully.\n";
-    }
-
-    void update(int purchase_qty) {
-        if (Product_Quantity >= purchase_qty) {
-            Product_Quantity -= purchase_qty;
-            cout << "Purchase successful!\n";
-            cout << "Total cost: " << Product_Price * purchase_qty << endl;
-        } else {
-            cout << "Error: Not enough stock available.\n";
+    int Search(int idno)
+    {
+        if (Product_id == idno)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
         }
     }
 
-    void display() {
-        cout << "Product ID    : " << Product_Id << endl;
-        cout << "Product Name  : " << Product_Name << endl;
-        cout << "Product Price : " << Product_Price << endl;
-        cout << "Quantity Left : " << Product_Quantity << endl;
-        cout << "-----------------------------" << endl;
+    void Update_purchase()
+    {
+        User_quantitty++;
+        Product_quantity--;
+    }
+
+    void Update_stockup(int Quantitty)
+    {
+        Product_quantity = Product_quantity + Quantitty; // FIXED: assignment, not comparison
+    }
+
+    void Display_bill()
+    {
+        if (User_quantitty > 0)
+        {
+            cout << "\nID : " << Product_id << endl;
+            cout << "Name : " << Product_name << endl;
+            cout << "Rate : " << Product_price << endl;
+            cout << "Quantity : " << User_quantitty << endl; // FIXED: used wrong variable and syntax
+            cout << "TOTAL : " << Display_total(Product_price, User_quantitty) << endl;
+            User_quantitty = 0;
+        }
     }
 };
 
-int main() {
+int main()
+{
     Product p[10];
-    int Product_count = 0, choice, Temp_Id, Temp_Quantity, choice2;
+    int Product_count = 0, Choice, Temp_Id, Temp_uantity, Choice2;
     float Temp_Rate;
     string Temp_Name;
 
-    while (true) {
-        cout << "\n=== Inventory Management ===\n";
-        cout << "1. Add stock\n";
-        cout << "2. Purchase item / Display inventory\n";
-        cout << "0. Exit\n";
-        cout << "Enter your choice: ";
-        cin >> choice;
+    do
+    {
+        cout << "\nEnter 1 to add Item" << endl;
+        cout << "Enter 2 to purchase item" << endl;
+        cout << "Enter 0 to exit" << endl;
+        cout << "Enter your Choice : ";
+        cin >> Choice;
 
-        if (choice == 1) {
-            cout << "Enter Product ID: ";
+        if (Choice == 1)
+        {
+            cout << "Enter Product ID : ";
             cin >> Temp_Id;
+            cout << "Enter product quantity : ";
+            cin >> Temp_uantity;
 
-            bool found = false;
-            for (int i = 0; i < Product_count; i++) {
-                if (p[i].check(Temp_Id)) {
-                    p[i].update();
-                    found = true;
-                    break;
+            if (Product_count == 0)
+            {
+                cout << "Enter product Name :";
+                cin >> Temp_Name;
+                cout << "Enter product rate : ";
+                cin >> Temp_Rate;
+                Product_count++;
+                p[0].Add(Temp_Id, Temp_uantity, Temp_Name, Temp_Rate);
+            }
+            else
+            {
+                bool found = false;
+                for (int i = 0; i < Product_count; i++)
+                {
+                    if (p[i].Search(Temp_Id))
+                    {
+                        p[i].Update_stockup(Temp_uantity);
+                        cout << "Product quantity Updated successfully" << endl;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    cout << "Enter product Name :";
+                    cin >> Temp_Name;
+                    cout << "Enter product rate : ";
+                    cin >> Temp_Rate;
+                    p[Product_count].Add(Temp_Id, Temp_uantity, Temp_Name, Temp_Rate);
+                    Product_count++;
                 }
             }
-
-            if (!found) {
-                cout << "Enter product name: ";
-                cin >> Temp_Name;
-                cout << "Enter product price: ";
-                cin >> Temp_Rate;
-                cout << "Enter product quantity: ";
-                cin >> Temp_Quantity;
-                p[Product_count].Add(Temp_Id, Temp_Quantity, Temp_Name, Temp_Rate);
-                Product_count++;
-                cout << "New product added.\n";
-            }
         }
+        else if (Choice == 2)
+        {
+            do
+            {
+                cout << "\nEnter 1 to purchase product" << endl;
+                cout << "Enter 2 to display bill" << endl;
+                cout << "Enter 0 to exit" << endl;
+                cout << "Enter Your Choice : ";
+                cin >> Choice2;
 
-        else if (choice == 2) {
-            if (Product_count == 0) {
-                cout << "No products in inventory. Please add stock first.\n";
-            } else {
-                cout << "1. Purchase item\n";
-                cout << "2. Display inventory summary\n";
-                cout << "0. Back to main menu\n";
-                cout << "Enter your choice: ";
-                cin >> choice2;
-
-                if (choice2 == 1) {
-                    cout << "Enter product ID to purchase: ";
+                switch (Choice2)
+                {
+                case 1:
+                    cout << "Enter product Id : ";
                     cin >> Temp_Id;
-                    bool found = false;
-                    for (int i = 0; i < Product_count; i++) {
-                        if (p[i].check(Temp_Id)) {
-                            cout << "Enter quantity to purchase: ";
-                            cin >> Temp_Quantity;
-                            p[i].update(Temp_Quantity);
-                            found = true;
+                    for (int i = 0; i < Product_count; i++)
+                    {
+                        if (p[i].Search(Temp_Id))
+                        {
+                            p[i].Update_purchase();
                             break;
                         }
+                        else if (i == Product_count - 1)
+                        {
+                            cout << "NO product with matching Id found" << endl;
+                        }
                     }
-                    if (!found) {
-                        cout << "No product with matching ID found.\n";
+                    break;
+
+                case 2:
+                    for (int i = 0; i < Product_count; i++)
+                    {
+                        p[i].Display_bill();
                     }
-                }
+                    break;
 
-                else if (choice2 == 2) {
-                    cout << "\n=== Inventory Summary ===\n";
-                    for (int i = 0; i < Product_count; i++) {
-                        p[i].display();
-                    }
-                }
+                case 0:
+                    cout << "Thank you for visiting" << endl;
+                    break;
 
-                else if (choice2 == 0) {
-                    cout << "Returning to main menu...\n";
+                default:
+                    cout << "ERROR : INVALID CHOICE" << endl;
+                    break;
                 }
-
-                else {
-                    cout << "Invalid choice.\n";
-                }
-            }
+            } while (Choice2 != 0);
+        }
+        else
+        {
+            cout << "Invalid Choice";
         }
 
-        else if (choice == 0) {
-            cout << "Exiting...\n";
-            break;
-        }
-
-        else {
-            cout << "Invalid main menu choice.\n";
-        }
-    }
+    } while (Choice != 0);
 
     return 0;
 }
