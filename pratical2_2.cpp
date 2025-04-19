@@ -3,52 +3,52 @@ using namespace std;
 
 class Student
 {
-    int roll_no;
-    string name;
-    int marks[3];
+    int Rollno;
+    string Name;
+    int Marks[3];
     public:
     Student()
     {
-        roll_no = 0;
-        name = "N.A";
-        marks[0] = 0;
-        marks[1] = 0;
-        marks[2] = 0;    
+        Rollno = 0;
+        Name = "N.A";
+        Marks[0] = 0;
+        Marks[1] = 0;
+        Marks[2] = 0;    
     }
-    void get_details()
+    void Add_student()
     {
         cout<<"Enter student roll number : ";
-        cin >> roll_no;
-        cout<<"Enter student name : ";
-        cin >> name;
+        cin >> Rollno;
+        cout<<"Enter student Name : ";
+        cin >> Name;
         cout << "Enter student marks"<<endl;
         cout<<"Maths : ";
-        cin >> marks[0];
+        cin >> Marks[0];
         cout <<"Physics : ";
-        cin >> marks[1];
+        cin >> Marks[1];
         cout<<"Chemistry : " ;
-        cin >> marks[2];
+        cin >> Marks[2];
     }
-    void average()
+    void Average()
     {
         cout<< ":::::::Marks obtained::::::::"<<endl;
-        cout<<"Maths : "<<marks[0]<<endl;
-        cout<<"Physics : "<<marks[1]<<endl;
-        cout<<"Chemistry : "<<marks[2]<<endl;
-        cout<<"Average : "<<((marks[0]+marks[1]+marks[2])/3)<< endl;
+        cout<<"Maths : "<<Marks[0]<<endl;
+        cout<<"Physics : "<<Marks[1]<<endl;
+        cout<<"Chemistry : "<<Marks[2]<<endl;
+        cout<<"Average : "<<((Marks[0]+Marks[1]+Marks[2])/3)<< endl;
     }
-    void display_details()
+    void Display_details()
     {
-        cout<<"ID : "<<roll_no<<endl;
-        cout<<"Name : "<<name<<endl;
+        cout<<"ID : "<<Rollno<<endl;
+        cout<<"Name : "<<Name<<endl;
         cout<<"Marks Obtained"<<endl;
-        cout<<"Maths : "<<marks[0]<<endl;
-        cout<<"Physcis : " << marks[1]<<endl;
-        cout<<"Chmistry : "<<marks[2]<<endl;
+        cout<<"Maths : "<<Marks[0]<<endl;
+        cout<<"Physcis : " << Marks[1]<<endl;
+        cout<<"Chmistry : "<<Marks[2]<<endl;
     }
-    int check(int roll)
+    int Search(int roll)
     {
-        if(roll_no== roll)
+        if(Rollno== roll)
         {
             return 1;
         }
@@ -62,34 +62,34 @@ class Student
 int main()
 {
     Student s[10];
-    int studentcount=0 , choice , temp;
+    int Student_count=0 , Choice , Temp;
     char x;
     do
     {
     cout<<"Enter 1 to add student"<<endl;
-    cout<<"Enter 2 to dislpay Student average marks"<<endl;
+    cout<<"Enter 2 to dislpay Student Average Marks"<<endl;
     cout<<"Enter 3 to dislpay entire student deatils"<<endl;
     cout<<"Enter 0 to exit"<<endl;
-    cout<<"Enter your choice : ";
-    cin >>choice;
-    switch(choice)
+    cout<<"Enter your Choice : ";
+    cin >>Choice;
+    switch(Choice)
     {
         case 1:
-            s[studentcount].get_details();
-            studentcount++;
+            s[Student_count].Add_student();
+            Student_count++;
             break;
 
         case 2:
-            cout<< "Enter student ID to display his/her average marks : " ;
-            cin >> temp;
-            for(int i=0 ; i<studentcount ; i++)
+            cout<< "Enter student ID to display his/her Average Marks : " ;
+            cin >> Temp;
+            for(int i=0 ; i<Student_count ; i++)
             {
-                if( s[i].check(temp))
+                if( s[i].Search(Temp))
                 {
-                    s[i].average();
+                    s[i].Average();
                     break;
                 }
-                else if(i==studentcount-1)
+                else if(i==Student_count-1)
                 {
                     cout<<"No matching id found"<<endl;
                 }
@@ -98,26 +98,26 @@ int main()
         case 3:
         
             cout<<"Enter student ID to dislpay his/her deatils : ";
-            cin >> temp;
-            for(int i=0 ; i<studentcount ; i++)
+            cin >> Temp;
+            for(int i=0 ; i<Student_count ; i++)
             {
-                if( s[i].check(temp))
+                if( s[i].Search(Temp))
                 {
-                    s[i].display_details();
+                    s[i].Display_details();
                     break;
                 }
-                else if(i==studentcount-1)
+                else if(i==Student_count-1)
                 {
                     cout<<"No matching id found"<<endl;
                 }
             }
             break;
         case 0: 
-            cout<<"Thank you!"<<endl;
+            cout<<"HAVE A GOOD DAY"<<endl;
             break;
         default : 
             cout<<"Please retry"<<endl;
     }
-}while(choice != 0);
+}while(Choice != 0);
     return 0;
 }
