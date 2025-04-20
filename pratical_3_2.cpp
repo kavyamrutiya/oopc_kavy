@@ -1,38 +1,38 @@
 #include <iostream>
 using namespace std;
 
-void Sum_itrative(int array[],int size)
+void Sum_itrative(int array[],int Size)
 {
-    int i,sum=0;
-    for(i=0 ;i<size ; i++)
+    int i,Sum=0;
+    for(i=0 ;i<Size ; i++)
     {
-        sum = sum+array[i];
+        Sum = Sum+array[i];
     }
-    cout<<"The sum through itrative aaporach is "<<sum<<endl;
+    cout<<"The Sum through itrative aaporach is "<<Sum<<endl;
 }
-int Sum_reccursive(int array[] , int size)
+int Sum_reccursive(int array[] , int Size)
 { 
-    if(size==0)
+    if(Size==0)
     {
         return 0;
     }
     else
     {
-        return(array[size-1] + Sum_reccursive(array , size-1));
+        return(array[Size-1] + Sum_reccursive(array , Size-1));
     }
 }
 int main()
 {
-    int size , *array,i,sum=0;
-    cout<<"Enter the size of array you want : ";
-    cin>>size;
-    array = new int[size];
+    int Size , *array,i,Sum=0;
+    cout<<"Enter the Size of array you want : ";
+    cin>>Size;
+    array = new int[Size];
     cout<<"Enter numbers"<<endl;
-    for(i=0 ; i<size ; i++)
+    for(i=0 ; i<Size ; i++)
     {
         cin>>array[i];
     }
-    Sum_itrative(array , size);
-    sum = Sum_reccursive(array , size);
-    cout<<"The sum reccursive aaporach is "<<sum<<endl;
+    Sum_itrative(array , Size);
+    Sum = Sum_reccursive(array , Size);
+    cout<<"The Sum reccursive aaporach is "<<Sum<<endl;
 }
