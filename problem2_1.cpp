@@ -1,43 +1,38 @@
-#include <iostream> 
-using namespace std; 
+#include <iostream>
+using namespace std;
 
-class Rectangle { 
-    int l, w; // Private data members to store length and width 
+class Rectangle {
+    int Length, Width;
 
-public: 
-    // Member function to set dimensions of the rectangle 
-    void setDimension(int a, int b) { // Changed return type to void 
-        l = a; 
-        w = b; 
-    } 
+public:
+    void Set_dimension(int a, int b) {
+        Length = a;
+        Width = b;
+    }
 
-    // Member function to calculate and return the area of the rectangle 
-    int area() { 
-        int Area = l * w; // Area formula: length * width 
-        return Area; 
-    } 
+    int Calculate_area() {
+        return Length * Width;
+    }
 
-    // Member function to calculate and return the perimeter of the rectangle 
-    int perimeter() { 
-        int Perimeter = 2 * (l + w); // Perimeter formula: 2 * (length + width) 
-        return Perimeter; 
-    } 
-}; 
+    int Perimeter() {
+        return 2 * (Length + Width);
+    }
+};
 
-int main() { 
-    Rectangle rect; // Creating a single Rectangle object 
-    int l, w, Area, Perimeter; 
+int main() {
+    Rectangle rect;
+    int l, w;
 
-    cout << "Enter length and width of Rectangle: "; 
-    cin >> l >> w; // Taking user input for length and width 
+    cout << "Enter length and width of Rectangle: ";
+    cin >> l >> w;
 
-    rect.setDimension(l, w); // Setting dimensions for the rectangle 
+    rect.Set_dimension(l, w);
 
-    Area = rect.area();           // Calculating the area 
-    Perimeter = rect.perimeter(); // Calculating the perimeter 
+    int Area = rect.Calculate_area();
+    int P = rect.Perimeter();
 
-    // Displaying the results 
-    cout << "The area of the rectangle is " << Area 
-         << " and the perimeter of the rectangle is " << Perimeter << "." << endl; 
-    return 0; 
+    cout << "The area of the rectangle is " << Area
+         << " and the perimeter of the rectangle is " << P << "." << endl;
+
+    return 0;
 }
