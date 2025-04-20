@@ -2,87 +2,97 @@
 using namespace std;
 
 class Product {
-    int id;
-    string name;
-    int quantity;
-    int rate;
+    int Product_id;
+    string Product_name;
+    int Product_quantity;
+    float Product_price;
 
 public:
-    void add(int idno, string naam, int qty, int r) {
-        id = idno;
-        name = naam;
-        quantity = qty;
-        rate = r;
+    void Add(int id, string name, int quantity, float price) {
+        Product_id = id;
+        Product_name = name;
+        Product_quantity = quantity;
+        Product_price = price;
     }
 
-    int check(int idno) {
-        return id == idno;
+    void Update_quantity(int qty) {
+        Product_quantity += qty;
     }
 
-    void updateQuantity(int qty) {
-        quantity += qty;
+    float Get_value() {
+        return Product_quantity * Product_price;
     }
 
-    int getValue() {
-        return quantity * rate;
+    void Display() {
+        cout << "ID: " << Product_id
+             << ", Name: " << Product_name
+             << ", Quantity: " << Product_quantity
+             << ", Price: " << Product_price << endl;
     }
 
-    void display() {
-        cout << "ID: " << id << ", Name: " << name << ", Quantity: " << quantity << ", Rate: " << rate << ", Value: " << getValue() << endl;
+    int Get_id() {
+        return Product_id;
     }
 };
 
 int main() {
-    Product p[100];
-    int productCount = 0;
-    int choice;
+    Product inventory[100];
+    int productCount = 0, choice, id, qty;
+    string name;
+    float price;
 
     do {
-        cout << "\n1. Add/Update Product\n2. View Inventory\n3. Total Inventory Value\n4. Exit\nEnter your choice: ";
+        cout << "\n1. Add Product\n2. Update Quantity\n3. Display All\n4. Calculate Total Value\n0. Exit\nEnter choice: ";
         cin >> choice;
 
-        if (choice == 1) {
-            int id, rate, qty;
-            string name;
-            cout << "Enter Product ID: ";
-            cin >> id;
-            cout << "Enter Product Name: ";
-            cin >> name;
-            cout << "Enter Quantity: ";
-            cin >> qty;
-            cout << "Enter Rate: ";
-            cin >> rate;
-
-            bool found = false;
-            for (int i = 0; i < productCount; i++) {
-                if (p[i].check(id)) {
-                    p[i].updateQuantity(qty);
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                p[productCount].add(id, name, qty, rate);
+        switch (choice) {
+            case 1:
+                cout << "Enter Product ID, Name, Quantity, Price: ";
+                cin >> id >> name >> qty >> price;
+                inventory[productCount].Add(id, name, qty, price);
                 productCount++;
-            }
-        }
+                break;
 
-        else if (choice == 2) {
-            for (int i = 0; i < productCount; i++) {
-                p[i].display();
-            }
-        }
+            case 2:
+                cout << "Enter Product ID to update quantity: ";
+                cin >> id;
+                cout << "Enter Quantity to add: ";
+                cin >> qty;
+                for (int i = 0; i < productCount; i++) {
+                    if (inventory[i].Get_id() == id) {
+                        inventory[i].Update_quantity(qty);
+                        cout << "Quantity updated.\n";
+                        break;
+                    }
+                    if (i == productCount - 1) {
+                        cout << "Product not found.\n";
+                    }
+                }
+                break;
 
-        else if (choice == 3) {
-            int total = 0;
-            for (int i = 0; i < productCount; i++) {
-                total += p[i].getValue();
-            }
-            cout << "Total Inventory Value: " << total << endl;
-        }
+            case 3:
+                for (int i = 0; i < productCount; i++) {
+                    inventory[i].Display();
+                }
+                break;
 
-    } while (choice != 4);
+            case 4:
+                float total;
+                total = 0;
+                for (int i = 0; i < productCount; i++) {
+                    total += inventory[i].Get_value();
+                }
+                cout << "Total Inventory Value: Rs. " << total << endl;
+                break;
+
+            case 0:
+                cout << "Thank you!" << endl;
+                break;
+
+            default:
+                cout << "Invalid choice.\n";
+        }
+    } while (choice != 0);
 
     return 0;
 }
