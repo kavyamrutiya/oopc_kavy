@@ -1,71 +1,82 @@
 #include <iostream>
-#include<vector>
+#include <vector>
 using namespace std;
+
 class Fule
 {   
-    string Fule_type;
-    protected:
-    Fule(string fule){Fule_type = fule;}
-    void Display_fule_type()
-    {
-        cout<<"\nFule Tpye : "<<Fule_type<<endl;
-    }
+    string Fuel_type;
 
+protected:
+    Fule(string fuel) { Fuel_type = fuel; }
+    void Display_fuel_type()
+    {
+        cout << "\nFuel Type : " << Fuel_type << endl;
+    }
 };
+
 class Brand
 {
     string Brand_name;
-    protected:
-    Brand(string brand){Brand_name = brand;}
+
+protected:
+    Brand(string brand) { Brand_name = brand; }
     void Display_brand()
     {
-        cout<<"Brand name : "<<Brand_name<<endl;;
+        cout << "Brand name : " << Brand_name << endl;
     }
 };
-class Car:private Fule,private Brand
+
+class Car : private Fule, private Brand
 {
-    public:
-    Car(string fule,string brand):Fule(fule),Brand(brand) {}
+public:
+    Car(string fuel, string brand) : Fule(fuel), Brand(brand) {}
     void Display_car_details()
     {
-        Display_fule_type();
+        Display_fuel_type();  
         Display_brand();
     }
 };
- int main()
+
+int main()
 {
-    vector<Car>car;
-    int Car_count=0,choice;
-    string fule,brand;
+    vector<Car> car;
+    int Car_count = 0, choice;
+    string fuel, brand;
+
     do
     {
-        cout<<"\nEnter 1 to add car details"<<endl;
-        cout<<"Enter 2 to display car details"<<endl;
-        cout<<"Enter 0 to Exit"<<endl;
-        cout<<"Enter your choice : ";
-        cin>>choice;
-        switch(choice)
+        cout << "\nEnter 1 to add car details" << endl;
+        cout << "Enter 2 to display car details" << endl;
+        cout << "Enter 0 to Exit" << endl;
+        cout << "Enter your choice : ";
+        cin >> choice;
+
+        switch (choice)
         {
-            case 1:
-                cout<<"Fule type : ";
-                cin>>fule;
-                cout<<"Brand : ";
-                cin>>brand;
-                car.push_back(Car(fule,brand));
-                Car_count++;
-                break;
-            case 2:
-                for(int i=0 ;i<Car_count;i++)
-                {
-                    car[i].Display_car_details();
-                }
-                break;
-            case 0:
-                cout<<"Thanks for visting"<<endl;
-                break;
-            default:
-                cout<<"INVALID CHOICE"<<endl;
+        case 1:
+            cout << "Fuel type : ";
+            cin >> fuel;  
+            cout << "Brand : ";
+            cin >> brand;
+            car.push_back(Car(fuel, brand));
+            Car_count++;
+            break;
+
+        case 2:
+            for (int i = 0; i < Car_count; i++)
+            {
+                car[i].Display_car_details();
+            }
+            break;
+
+        case 0:
+            cout << "Thanks for visiting" << endl;
+            break;
+
+        default:
+            cout << "INVALID CHOICE" << endl;
         }
     } while (choice);
+
     return 0;
 }
