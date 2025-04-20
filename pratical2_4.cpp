@@ -7,7 +7,7 @@ class Product
     int Product_quantity;
     string Product_name;
     float Product_price;
-    int User_quantitty = 0;
+    int User_quantity = 0;
 
     float Display_total(float Price, int quantity)
     {
@@ -15,10 +15,10 @@ class Product
     }
 
 public:
-    void Add(int Id, int Quantitty, string Name, float Price)
+    void Add(int Id, int quantity, string Name, float Price)
     {
         Product_id = Id;
-        Product_quantity = Quantitty;
+        Product_quantity = quantity;
         Product_name = Name;
         Product_price = Price;
     }
@@ -37,25 +37,25 @@ public:
 
     void Update_purchase()
     {
-        User_quantitty++;
+        User_quantity++;
         Product_quantity--;
     }
 
-    void Update_stockup(int Quantitty)
+    void Update_stockup(int quantity)
     {
-        Product_quantity = Product_quantity + Quantitty; // FIXED: assignment, not comparison
+        Product_quantity = Product_quantity + quantity; // FIXED: assignment, not comparison
     }
 
     void Display_bill()
     {
-        if (User_quantitty > 0)
+        if (User_quantity > 0)
         {
             cout << "\nID : " << Product_id << endl;
             cout << "Name : " << Product_name << endl;
             cout << "Rate : " << Product_price << endl;
-            cout << "Quantity : " << User_quantitty << endl; // FIXED: used wrong variable and syntax
-            cout << "TOTAL : " << Display_total(Product_price, User_quantitty) << endl;
-            User_quantitty = 0;
+            cout << "Quantity : " << User_quantity << endl; 
+            cout << "TOTAL : " << Display_total(Product_price, User_quantity) << endl;
+            User_quantity = 0;
         }
     }
 };
