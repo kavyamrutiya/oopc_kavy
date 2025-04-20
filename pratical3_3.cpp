@@ -12,30 +12,30 @@ class Bank_account
     void Add_account(int Temp_account_number);
     void Deposit();
     void Withdraw();
-    int Check(int Temp_account_number);
-    void Display()
+    int Search(int Temp_account_number);
+    void Display_details()
     {
-        cout << "Account holder name : " << Account_holder_name << endl;
+        cout << "\nAccount holder name : " << Account_holder_name << endl;
         cout << "Account Number : " << Account_number << endl;
         cout << "Account balance : " << Balance << endl;
     }
 };
 int main()
 {
-    int choice, Account_count = 0, Temp_account_number, i;
+    int Choice, Account_count = 0, Temp_account_number, i;
     vector<Bank_account>Account;
     Bank_account a;
     do
     {
-        cout << "Enter 1 to Add account" << endl;
+        cout << "\nEnter 1 to Add account" << endl;
         cout << "Enter 2 to Deposit amount" << endl;
         cout << "Enter 3 to Withdraw amount" << endl;
         cout << "Enter 4 to Display Account details" << endl;
         cout << "Enter 0 to exit" << endl;
-        cout << "Enter your choice : ";
-        cin >> choice;
+        cout << "Enter your Choice : ";
+        cin >> Choice;
 
-        switch (choice)
+        switch (Choice)
         {
         case 1:
             if(Account_count == 0)
@@ -52,7 +52,7 @@ int main()
                 cin >> Temp_account_number;
                 for(i=0;i<Account_count;i++)
                 {
-                    if(Account[i].Check(Temp_account_number))
+                    if(Account[i].Search(Temp_account_number))
                     {
                         cout<<"ERROR : ACCOUNT ALREADY EXIST"<<endl;
                         break;
@@ -72,7 +72,7 @@ int main()
             cin >> Temp_account_number;
             for (i = 0; i < Account_count; i++)
             {
-                if (Account[i].Check(Temp_account_number))
+                if (Account[i].Search(Temp_account_number))
                 {
                     Account[i].Deposit();
                     break;
@@ -88,7 +88,7 @@ int main()
             cin >> Temp_account_number;
             for (i = 0; i < Account_count; i++)
             {
-                if (Account[i].Check(Temp_account_number))
+                if (Account[i].Search(Temp_account_number))
                 {
                     Account[i].Withdraw();
                     break;
@@ -104,9 +104,9 @@ int main()
             cin >> Temp_account_number;
             for (i = 0; i < Account_count; i++)
             {
-                if (Account[i].Check(Temp_account_number))
+                if (Account[i].Search(Temp_account_number))
                 {
-                    Account[i].Display();
+                    Account[i].Display_details();
                     break;
                 }
                 else if (i == Account_count - 1)
@@ -115,16 +115,21 @@ int main()
                 }
             }
             break;
+        case 0:
+            cout<<"THANKS FOR VISITING"<<endl;
+            break;
+        default:
+            cout<<"INVALID CHOICE"<<endl;
         }
 
-    } while (choice != 0);
+    } while (Choice != 0);
     return 0;
 }
 
 void Bank_account :: Add_account(int Temp_account_number)
 {    
     Account_number = Temp_account_number;
-    cout << "Enter Accoutn holder name : ";
+    cout << "Enter Account holder name : ";
     cin >> Account_holder_name;
     cout << "Enter balance : ";
     cin >> Balance;
@@ -153,7 +158,7 @@ void Bank_account :: Withdraw()
             cout << "ERROR : INSUFFICENT BALANCE " << endl;
         }
 }
-int Bank_account :: Check(int Temp_account_number)
+int Bank_account :: Search(int Temp_account_number)
 {
     if (Account_number == Temp_account_number)
     {
