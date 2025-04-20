@@ -8,7 +8,7 @@ int SuperDigit(long long Number, int z){
     else{
         long long Super =0;
         int y=0;
-        
+
         while(Number>=1){
             Super+= Number%10; 
             Number/=10;
@@ -32,6 +32,5 @@ int main()
     }
 
     cout<<"\nThe Super Digit of "<<Number<<" is "<<SuperDigit(stoll(Number), Number.size()); 
-    
     return 0;
 }
