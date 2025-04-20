@@ -1,31 +1,32 @@
+
 #include <iostream>
 #include <string>
 using namespace std;
 
 
-class GradingSystem {
+class Grading_system {
 protected:
-    float marks; 
+    float Marks; 
 
 public:
     
-    void setMarks(float m) {
-        marks = m;
+    void Get_Marks(float m) {
+        Marks = m;
     }
 
-    virtual void computeGrade() = 0;
+    virtual void Compute_grade() = 0;
 };
 
 
-class Undergraduate : public GradingSystem {
+class Undergraduate : public Grading_system {
 public:
-    void computeGrade() {
+    void Compute_grade() {
         cout << "Undergraduate Grade: ";
-        if (marks >= 80) {
+        if (Marks >= 80) {
             cout << "A (First Class)" << endl;
-        } else if (marks >= 60) {
+        } else if (Marks >= 60) {
             cout << "B (Second Class)" << endl;
-        } else if (marks >= 40) {
+        } else if (Marks >= 40) {
             cout << "C (Pass)" << endl;
         } else {
             cout << "F (Fail)" << endl;
@@ -33,15 +34,15 @@ public:
     }
 };
 
-class Postgraduate : public GradingSystem {
+class Postgraduate : public Grading_system {
 public:
-    void computeGrade() {
+    void Compute_grade() {
         cout << "Postgraduate Grade: ";
-        if (marks >= 75) {
+        if (Marks >= 75) {
             cout << "A (Distinction)" << endl;
-        } else if (marks >= 55) {
+        } else if (Marks >= 55) {
             cout << "B (Merit)" << endl;
-        } else if (marks >= 40) {
+        } else if (Marks >= 40) {
             cout << "C (Pass)" << endl;
         } else {
             cout << "F (Fail)" << endl;
@@ -51,10 +52,10 @@ public:
 
 int main() {
     
-    Undergraduate ugStudent;
-    Postgraduate pgStudent;
+    Undergraduate UgStudent;
+    Postgraduate PgStudent;
 
-    float marks;
+    float Marks;
     int level;
 
     cout << "EDUCATIONAL GRADING SYSTEM\n";
@@ -65,16 +66,16 @@ int main() {
     cin >> level;
 
    
-    cout << "Enter student marks (0-100): ";
-    cin >> marks;
+    cout << "Enter student Marks (0-100): ";
+    cin >> Marks;
 
     
     if (level == 1) {
-        ugStudent.setMarks(marks);
-        ugStudent.computeGrade();
+        UgStudent.Get_Marks(Marks);
+        UgStudent.Compute_grade();
     } else if (level == 2) {
-        pgStudent.setMarks(marks);
-        pgStudent.computeGrade();
+        PgStudent.Get_Marks(Marks);
+        PgStudent.Compute_grade();
     } else {
         cout << "Invalid student level!" << endl;
     }
