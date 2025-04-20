@@ -9,9 +9,13 @@ class Employee
     float Basic_salary;
     float Bonus;
     float Total_salary;
-    void Calculate_Total_salary()
+    void Calculate_total_salary()
     {
         Total_salary = Basic_salary + Bonus;
+    }
+    void Update_total_salary()
+    {
+        Total_salary = Total_salary - Bonus;
     }
 
     public:
@@ -21,8 +25,8 @@ class Employee
         Basic_salary = 00.00;
         Bonus = 5000;
     }
-    void Get_data(int Temp_id);
-    void Display_data();
+    void Add_employee(int Temp_id);
+    void Display_details();
     void Set_bonus();
     int Search(int Temp_id);
 
@@ -31,15 +35,15 @@ class Employee
 int main()
 {
     vector<Employee> Emp;
-    Employee Emp2;
+    Employee Emp0;
     int Choice,Employee_count=0,Temp_id,i;
     do
     { 
-        cout<<"Enter 1 to add Employee"<<endl;
+        cout<<"\nEnter 1 to add Employee"<<endl;
         cout<<"Enter 2 to set  Coustom Bouns"<<endl;
         cout<<"Enter 3 to Dislpay employee data"<<endl;
         cout<<"Enter 4 to EXIT"<<endl;
-        cout<<"Enter your choice : ";
+        cout<<"Enter your Choice : ";
         cin>>Choice;
 
         switch(Choice)
@@ -49,8 +53,8 @@ int main()
             {
                 cout<<"Enter Employee ID : ";
                 cin>>Temp_id;
-                Emp2.Get_data(Temp_id);
-                Emp.push_back(Emp2);
+                Emp0.Add_employee(Temp_id);
+                Emp.push_back(Emp0);
                 Employee_count++;
             }
             else
@@ -66,9 +70,9 @@ int main()
                     }
                     if(i == Employee_count-1)
                     {
-                        Emp2.Get_data(Temp_id);
+                        Emp0.Add_employee(Temp_id);
                         Employee_count++;
-                        Emp.push_back(Emp2);
+                        Emp.push_back(Emp0);
                     }
                 }
                 
@@ -92,6 +96,7 @@ int main()
                     }
                     break;
                 }
+                break;
                
             
             case 3:
@@ -101,7 +106,7 @@ int main()
             {
                 if(Emp[i].Search(Temp_id))
                 {
-                    Emp[i].Display_data();
+                    Emp[i].Display_details();
                     break;
                 }
                 if(i == Employee_count-1)
@@ -111,7 +116,7 @@ int main()
             }
            
             break;
-        case 0:
+        case 4:
             cout<<"Have a nice day"<<endl;
             break;
         default :
@@ -122,27 +127,29 @@ int main()
 
     return 0;
 }
- void Employee :: Get_data( int Temp_id)
+ void Employee :: Add_employee( int Temp_id)
 {
     Employee_id = Temp_id;
     cout<<"Enter employee name : ";
     cin>>Employee_name;
     cout<<"Enter salary : ";
     cin>>Basic_salary;
-    Calculate_Total_salary();
+    Calculate_total_salary();
 }
-void Employee :: Display_data()
+void Employee :: Display_details()
 {
     cout<<"ID : "<<Employee_id<<endl;
     cout<<"Name : "<<Employee_name<<endl;
-    cout<<"Basic salary"<<Basic_salary<<endl;
+    cout<<"Basic salary : "<<Basic_salary<<endl;
     cout<<"Bonus : "<<Bonus<<endl;
-    cout<<"Total salary"<<Total_salary<<endl;
+    cout<<"Total salary : "<<Total_salary<<endl;
 }
 void Employee :: Set_bonus()
 {
+    Update_total_salary();
     cout<<"Enter bonus amount : ";
     cin>>Bonus;
+    Calculate_total_salary();
 }
 int Employee :: Search(int Temp_id)
 {
