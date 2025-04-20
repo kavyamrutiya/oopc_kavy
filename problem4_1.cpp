@@ -15,7 +15,7 @@ class Cricle : protected Shape
         Area = 3.14*Dimension*Dimension;
     }
     public :
-    void Display()
+    void Display_details()
     {
         cout<<Area<<endl;
     }
@@ -34,7 +34,7 @@ int main()
     float radius;
     do
     {
-        cout<<"Enter 1 to add cricle"<<endl;
+        cout<<"\nEnter 1 to add cricle"<<endl;
         cout<<"Enter 2 to display cricle details"<<endl;
         cout<<"Enter 0 to Exit"<<endl;
         cout<<"Entre your choice : ";
@@ -52,7 +52,7 @@ int main()
                 for(int i=0;i<cricle_count;i++)
                 {
                     cout<<"Area of cricle "<<i+1<<" is ";
-                    Cr[i].Display();
+                    Cr[i].Display_details();
                 }
                 break;
             case 0:
