@@ -1,310 +1,278 @@
-#include<iostream>
-#include<fstream>
+#include <iostream>
+#include <fstream>
 using namespace std;
-    
-class BankAccount {
-protected:    
-    int AccNum;
-    float Balance, PrevBal;
-    string FileName; 
-    fstream HistoryFile; //file storage class with 2
+
+class bank_account {
+protected:
+    int acc_num;
+    float balance, prev_balance;
+    string file_name;
+    fstream history_file;
 
 public:
-    BankAccount(int an, float bal) { //base counstructor
-        AccNum = an;
-        PrevBal = bal;
-        Balance = bal;
+    bank_account(int an, float bal) {
+        acc_num = an;
+        prev_balance = bal;
+        balance = bal;
     }
 
-    void Deposit(float diff) {
-        PrevBal = Balance; //saving previous balance if need to undo
-        Balance+=diff;
+    void deposit(float amount) {
+        prev_balance = balance;
+        balance += amount;
 
-        HistoryFile.open(FileName, ios::app);
-        HistoryFile.seekp(SEEK_END); 
-        if(!HistoryFile.is_open()) {
-            cerr<<endl<<"Unable to open file!"; //error case
+        history_file.open(file_name, ios::app);
+        history_file.seekp(SEEK_END);
+        if (!history_file.is_open()) {
+            cerr << endl << "Unable to open file!";
         }
-        //writing transaction details at end of file
-        HistoryFile<<"\nDeposited Rs. "<<diff<<" | Current Balance: Rs. "<<Balance;
-        HistoryFile.close();
+        history_file << "\nDeposited Rs. " << amount << " | Current Balance: Rs. " << balance;
+        history_file.close();
     }
 
-    void PrintHistory() {
-        HistoryFile.open(FileName, ios::in);
-        if(!HistoryFile.is_open()) {
-            cerr<<endl<<"Unable to open file!";
+    void print_history() {
+        history_file.open(file_name, ios::in);
+        if (!history_file.is_open()) {
+            cerr << endl << "Unable to open file!";
         }
 
-        cout<<"\n\nPrinting All Transaction History:\n";
+        cout << "\n\nPrinting All Transaction History:\n";
         string line;
-        while(getline(HistoryFile, line)) {
-            cout<<endl<<line;
+        while (getline(history_file, line)) {
+            cout << endl << line;
         }
-        HistoryFile.close();
+        history_file.close();
     }
 
-    void UndoLast() {
-        Balance = PrevBal;
+    void undo_last() {
+        balance = prev_balance;
 
-        HistoryFile.open(FileName, ios::app|ios::in);
-        HistoryFile.seekp(SEEK_SET);
-        if(!HistoryFile.is_open()) {
-            cerr<<endl<<"Unable to open file!";
+        history_file.open(file_name, ios::app | ios::in);
+        history_file.seekp(SEEK_SET);
+        if (!history_file.is_open()) {
+            cerr << endl << "Unable to open file!";
         }
 
-        HistoryFile<<"\nUndid Last Transaction | Current Balance: Rs. "<<Balance;
-        HistoryFile.close();
+        history_file << "\nUndid Last Transaction | Current Balance: Rs. " << balance;
+        history_file.close();
     }
 
-    ~BankAccount() {}
+    ~bank_account() {}
 };
 
-class SavingsAccount : public BankAccount {
-    float InterestRate;
+class savings_account : public bank_account {
+    float interest_rate;
+
 public:
+    savings_account(int an, float bal, float ir) : bank_account(an, bal) {
+        interest_rate = ir;
+        file_name = "savings_account_history.txt";
 
-    SavingsAccount(int an, float bal, float ir) : BankAccount(an, bal){
-        InterestRate = ir;
-        FileName = "SavAccHistory.txt"; //history saving file name
-        
-        HistoryFile.open(FileName, ios::out | ios::trunc);
-        HistoryFile.close(); //to clear whole file of previous Transaction History
+        history_file.open(file_name, ios::out | ios::trunc);
+        history_file.close();
 
-        HistoryFile.open(FileName, ios::app);
-        HistoryFile.seekp(SEEK_END);
-        HistoryFile<<"Savings Account No. "<<AccNum<<" Transaction History | Initial Balance: Rs. "<<Balance;
-        HistoryFile.close(); //fisrt line of file account details
+        history_file.open(file_name, ios::app);
+        history_file.seekp(SEEK_END);
+        history_file << "Savings Account No. " << acc_num << " Transaction History | Initial Balance: Rs. " << balance;
+        history_file.close();
     }
 
-    int Withdraw(float diff) {
-        if(diff<=Balance) { //checking for minimmum balance
-            PrevBal = Balance;
-            Balance-=diff;
+    int withdraw(float amount) {
+        if (amount <= balance) {
+            prev_balance = balance;
+            balance -= amount;
 
-            HistoryFile.open(FileName, ios::app);
-            HistoryFile.seekp(SEEK_END);
-            if(!HistoryFile.is_open()) {
-                cerr<<endl<<"Unable to open file!";
+            history_file.open(file_name, ios::app);
+            history_file.seekp(SEEK_END);
+            if (!history_file.is_open()) {
+                cerr << endl << "Unable to open file!";
             }
 
-            HistoryFile<<"\nWithdrew Rs."<<diff<<" | Current Balance: Rs. "<<Balance;
-            HistoryFile.close();
+            history_file << "\nWithdrew Rs." << amount << " | Current Balance: Rs. " << balance;
+            history_file.close();
 
             return 0;
+        } else {
+            return 1;
         }
-        else
-        return 1;
     }
 
-    void DisplayDetails() {
-        cout<<"\nAccount Number: "<<AccNum;
-        cout<<"\nInterest Rate: "<<InterestRate;
-        cout<<"\nCurrent Balance: Rs. "<<Balance;
+    void display_details() {
+        cout << "\nAccount Number: " << acc_num;
+        cout << "\nInterest Rate: " << interest_rate;
+        cout << "\nCurrent Balance: Rs. " << balance;
     }
 
-    ~SavingsAccount() {} //destructor
+    ~savings_account() {}
 };
-    
-class CurrentAccount : public BankAccount {
-    float OverdraftLimit;
-public:
-    
-    CurrentAccount(int an, float bal, float ol) : BankAccount(an, bal){ //derived constructor
-        OverdraftLimit = ol;
-        FileName = "CurAccHistory.txt";
-        
-        HistoryFile.open(FileName, ios::out | ios::trunc);
-        HistoryFile.close(); //clear file
 
-        HistoryFile.open(FileName, ios::app);
-        HistoryFile.seekp(SEEK_END);
-        HistoryFile<<"Current Account No. "<<AccNum<<" Transaction History | Initial Balance: Rs. "<<Balance;
-        HistoryFile.close(); //fiirst line
+class current_account : public bank_account {
+    float overdraft_limit;
+
+public:
+    current_account(int an, float bal, float ol) : bank_account(an, bal) {
+        overdraft_limit = ol;
+        file_name = "current_account_history.txt";
+
+        history_file.open(file_name, ios::out | ios::trunc);
+        history_file.close();
+
+        history_file.open(file_name, ios::app);
+        history_file.seekp(SEEK_END);
+        history_file << "Current Account No. " << acc_num << " Transaction History | Initial Balance: Rs. " << balance;
+        history_file.close();
     }
 
-    int Withdraw(float diff) {
-        if(diff<=Balance+OverdraftLimit) { //cheching overdraaft limit
-            PrevBal = Balance;
-            Balance-=diff;
+    int withdraw(float amount) {
+        if (amount <= balance + overdraft_limit) {
+            prev_balance = balance;
+            balance -= amount;
 
-            HistoryFile.open(FileName, ios::app);
-            HistoryFile.seekp(SEEK_END);
-            if(!HistoryFile.is_open()) {
-                cerr<<endl<<"Unable to open file!";
+            history_file.open(file_name, ios::app);
+            history_file.seekp(SEEK_END);
+            if (!history_file.is_open()) {
+                cerr << endl << "Unable to open file!";
             }
 
-            HistoryFile<<"\nWithdrew Rs."<<diff<<" | Current Balance: Rs. "<<Balance;
-            HistoryFile.close();
+            history_file << "\nWithdrew Rs." << amount << " | Current Balance: Rs. " << balance;
+            history_file.close();
 
             return 0;
+        } else {
+            return 1;
         }
-        else
-        return 1;
     }
 
-    void DisplayDetails() {
-        cout<<"\nAccount Number: "<<AccNum;
-        cout<<"\nOverDraft Limit: "<<OverdraftLimit;
-        cout<<"\nCurrent Balance: Rs. "<<Balance;
+    void display_details() {
+        cout << "\nAccount Number: " << acc_num;
+        cout << "\nOverdraft Limit: " << overdraft_limit;
+        cout << "\nCurrent Balance: Rs. " << balance;
     }
 
-    ~CurrentAccount() {}
+    ~current_account() {}
 };
-    
-    
-    
+
 int main() {
+    int choice = 1, acc_num, sub_choice;
+    float interest, balance, overdraft;
+    savings_account* sa = nullptr;
+    current_account* ca = nullptr;
 
-    int Choice=1, accn, choyis;
-    float interest, bal, limit;
-    SavingsAccount *SA = nullptr; //pointers to both account types (only one account per type, so total 2)
-    CurrentAccount *CA = nullptr;
-    
-    while(Choice>0 && Choice<8) {
-        cout<<"\n\nBanking System\nChoices:\n1. Create Savings Account\n2. Create Current Account\n3. Withdraw Money"
-            <<"\n4. Deposit Money\n5. View Transaction History\n6. Display Account Details\n7. Undo Last Transaction"
-            <<"\n0. Exit System\n\nEnter your Choice: "; //multiple choice based
-        cin>>Choice;
+    while (choice > 0 && choice < 8) {
+        cout << "\n\nBanking System\nChoices:\n1. Create Savings Account\n2. Create Current Account\n3. Withdraw Money"
+             << "\n4. Deposit Money\n5. View Transaction History\n6. Display Account Details\n7. Undo Last Transaction"
+             << "\n0. Exit System\n\nEnter your choice: ";
+        cin >> choice;
 
-        switch(Choice) {
-        case 1: 
-            cout<<"\nEnter Details of Savings Account: ";
-            cout<<"\nAccount Number: ";
-            cin>>accn;
-            cout<<"Interest Rate: ";
-            cin>>interest;
-            cout<<"Initial Balance: Rs. ";
-            cin>>bal;
-            SA = new SavingsAccount(accn, bal, interest); //creating dynamic object usinng "new" keyword
-            break;
-        
-        case 2: 
-            cout<<"\nEnter Details of Current Account: ";
-            cout<<"\nAccount Number: ";
-            cin>>accn;
-            cout<<"OverDraft Limit: ";
-            cin>>limit;
-            cout<<"Initial Balance: Rs. ";
-            cin>>bal;
-            CA = new CurrentAccount(accn, bal, limit);
-            break;
-        
-        case 3:
-            cout<<"\nPick Account to Withdraw money from:\n1. Savings Account\n2. Current Account\nChoice: ";
-            cin>>choyis;
+        switch (choice) {
+            case 1:
+                cout << "\nEnter Savings Account Details:\nAccount Number: ";
+                cin >> acc_num;
+                cout << "Interest Rate: ";
+                cin >> interest;
+                cout << "Initial Balance: Rs. ";
+                cin >> balance;
+                sa = new savings_account(acc_num, balance, interest);
+                break;
 
-            if(choyis==1 && SA!=nullptr) {
-                cout<<"Enter amount to Withdraw from Savings Account: ";
-                cin>>bal;
-                
-                if(!SA->Withdraw(bal)) {
-                cout<<"\nRs. "<<bal<<" withdrawn from savings account";
+            case 2:
+                cout << "\nEnter Current Account Details:\nAccount Number: ";
+                cin >> acc_num;
+                cout << "Overdraft Limit: ";
+                cin >> overdraft;
+                cout << "Initial Balance: Rs. ";
+                cin >> balance;
+                ca = new current_account(acc_num, balance, overdraft);
+                break;
+
+            case 3:
+                cout << "\nWithdraw from:\n1. Savings Account\n2. Current Account\nChoice: ";
+                cin >> sub_choice;
+                cout << "Amount: ";
+                cin >> balance;
+
+                if (sub_choice == 1 && sa != nullptr) {
+                    if (!sa->withdraw(balance)) {
+                        cout << "\nRs. " << balance << " withdrawn from Savings Account";
+                    } else {
+                        cout << "\nInsufficient balance";
+                    }
+                } else if (sub_choice == 2 && ca != nullptr) {
+                    if (!ca->withdraw(balance)) {
+                        cout << "\nRs. " << balance << " withdrawn from Current Account";
+                    } else {
+                        cout << "\nInsufficient balance";
+                    }
+                } else {
+                    cout << "\nNo such account found!";
                 }
-                else
-                cout<<"\nNot Enough Balance to withdraw";
-            }
-            else if(choyis==2 && CA!=nullptr) {
-                cout<<"Enter amount to Withdraw from Current Account: ";
-                cin>>bal;
-                
-                if(!CA->Withdraw(bal)) {
-                cout<<"\nRs. "<<bal<<" withdrawn from current account";
-                }
-                else
-                cout<<"\nNot Enough Balance to withdraw";
-            }
-            else {
-                cout<<"\nNo such bank account found!";
-            }
-            break;
-        
-        case 4:
-            cout<<"\nPick Account to Deposit money into:\n1. Savings Account\n2. Current Account\nChoice: ";
-            cin>>choyis;
+                break;
 
-            if(choyis==1 && SA!=nullptr) {
-                cout<<"Enter amount to Deposit into Savings Account: ";
-                cin>>bal;
-                
-                SA->Deposit(bal);
-                cout<<"\nRs. "<<bal<<" deposited into savings account";
-            }
-            else if(choyis==2 && CA!=nullptr) {
-                cout<<"Enter amount to Deposit into Current Account: ";
-                cin>>bal;
-                
-                CA->Deposit(bal);
-                cout<<"\nRs. "<<bal<<" deposited into current account";
-            }
-            else {
-                cout<<"\nNo such bank account found!";
-            }
-            break;
-        
-        case 5:
-            cout<<"\nPick Account to view transaction history:\n1. Savings Account\n2. Current Account\nChoice: ";
-            cin>>choyis;
+            case 4:
+                cout << "\nDeposit to:\n1. Savings Account\n2. Current Account\nChoice: ";
+                cin >> sub_choice;
+                cout << "Amount: ";
+                cin >> balance;
 
-            if(choyis==1 && SA!=nullptr) {
-                SA->PrintHistory();
-            }
-            else if(choyis==2 && CA!=nullptr) {
-                CA->PrintHistory();
-            }
-            else {
-                cout<<"\nNo such bank account found!";
-            }
-            break;
-        
-        case 6:
-            cout<<"\nPick Account to display details:\n1. Savings Account\n2. Current Account\nChoice: ";
-            cin>>choyis;
-            
-            if(choyis==1 && SA!=nullptr) {
-                cout<<"\nSavings Account Details:";
-                SA->DisplayDetails();
-            }
-            else if(choyis==2 && CA!=nullptr) {
-                cout<<"\nCurrent Account Details:";
-                CA->DisplayDetails();
-            }
-            else {
-                cout<<"\nNo such bank account found!";
-            }
-            break;
-        
-        case 7:
-            cout<<"\nPick Account to undo last Transaction:\n1. Savings Account\n2. Current Account\nChoice: ";
-            cin>>choyis;
-            
-            if(choyis==1) {
-                if(SA!=nullptr) {
-                    SA->UndoLast();
-                    cout<<"\nUndid Last Transaction in Savings Account";
+                if (sub_choice == 1 && sa != nullptr) {
+                    sa->deposit(balance);
+                    cout << "\nRs. " << balance << " deposited into Savings Account";
+                } else if (sub_choice == 2 && ca != nullptr) {
+                    ca->deposit(balance);
+                    cout << "\nRs. " << balance << " deposited into Current Account";
+                } else {
+                    cout << "\nNo such account found!";
                 }
-                else
-                cout<<"\nNo Transactions to Undo";
-            }
-            else if(choyis==2) {
-                if(CA!=nullptr) {
-                    CA->UndoLast();
-                    cout<<"\nUndid Last Transaction in Current Account";
-                }
-                else
-                cout<<"\nNo Transactions to Undo";
-            }
-            else {
-                cout<<"\nNo such bank account found!";
-            }
+                break;
 
-        default:
-            break;
+            case 5:
+                cout << "\nView history of:\n1. Savings Account\n2. Current Account\nChoice: ";
+                cin >> sub_choice;
+
+                if (sub_choice == 1 && sa != nullptr) {
+                    sa->print_history();
+                } else if (sub_choice == 2 && ca != nullptr) {
+                    ca->print_history();
+                } else {
+                    cout << "\nNo such account found!";
+                }
+                break;
+
+            case 6:
+                cout << "\nDisplay details of:\n1. Savings Account\n2. Current Account\nChoice: ";
+                cin >> sub_choice;
+
+                if (sub_choice == 1 && sa != nullptr) {
+                    sa->display_details();
+                } else if (sub_choice == 2 && ca != nullptr) {
+                    ca->display_details();
+                } else {
+                    cout << "\nNo such account found!";
+                }
+                break;
+
+            case 7:
+                cout << "\nUndo transaction in:\n1. Savings Account\n2. Current Account\nChoice: ";
+                cin >> sub_choice;
+
+                if (sub_choice == 1 && sa != nullptr) {
+                    sa->undo_last();
+                    cout << "\nUndid last transaction in Savings Account";
+                } else if (sub_choice == 2 && ca != nullptr) {
+                    ca->undo_last();
+                    cout << "\nUndid last transaction in Current Account";
+                } else {
+                    cout << "\nNo such account found!";
+                }
+                break;
+
+            default:
+                break;
         }
     }
-    cout<<"\n\nExiting System...";
-    
-    delete SA;
-    delete CA; //freeing dynamic memory
+
+    cout << "\n\nExiting System...";
+
+    delete sa;
+    delete ca;
     return 0;
 }
