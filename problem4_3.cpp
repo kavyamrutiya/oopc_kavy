@@ -2,12 +2,12 @@
 #include <vector>
 using namespace std;
 
-class Fule
+class Fuel
 {   
     string Fuel_type;
 
 protected:
-    Fule(string fuel) { Fuel_type = fuel; }
+    Fuel(string fuel) { Fuel_type = fuel; }
     void Display_fuel_type()
     {
         cout << "\nFuel Type : " << Fuel_type << endl;
@@ -26,10 +26,10 @@ protected:
     }
 };
 
-class Car : private Fule, private Brand
+class Car : private Fuel, private Brand
 {
 public:
-    Car(string fuel, string brand) : Fule(fuel), Brand(brand) {}
+    Car(string fuel, string brand) : Fuel(fuel), Brand(brand) {}
     void Display_car_details()
     {
         Display_fuel_type();  
