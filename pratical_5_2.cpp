@@ -1,26 +1,32 @@
 #include <iostream>
 using namespace std;
-class complex{
+
+class Complex
+{
     public:
-    int realPart,imaginaryPart;
+    int Real_part, Imgnary_part;
     void input()
     {
-        cout<<"Enter your number:";
-        cin>>realPart>>imaginaryPart;
+        cout<<"Enter num :";
+        cin>>Real_part>>Imgnary_part;
+
     }
-    void operator+(complex &b)
+    void operator+(Complex &b)
     {
-        complex ans;
-        ans.realPart = realPart + b.realPart;
-        ans.imaginaryPart=imaginaryPart+b.imaginaryPart;
-        cout<<ans.realPart<<"+"<<ans.imaginaryPart<<"i";
+        Complex Ans;
+        Ans.Real_part = Real_part + b.Real_part;
+        Ans.Imgnary_part= Imgnary_part+b.Imgnary_part;
+        cout<<Ans.Real_part<<"+"<<Ans.Imgnary_part<<"i";
     }
+
 };
 int main()
 {
-    complex a,b;
+    Complex a,b ,x;
     a.input();
     b.input();
     a+b;
     return 0;
+
 }
+
