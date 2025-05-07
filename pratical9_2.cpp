@@ -40,10 +40,10 @@ public:
         delete[] History;
     }
 
-    void eposit(double amount) {
+    void deposit(double amount) {
         if (amount <= 0) {
-            Log_transaction("Invalid eposit attempt: " + to_string(amount));
-            throw invalid_argument("Deposit amount must be positive.");
+            Log_transaction("Invalid deposit attempt: " + to_string(amount));
+            throw invalid_argument("deposit amount must be positive.");
         }
         Balance += amount;
         Log_transaction("Deposited: " + to_string(amount));
@@ -79,7 +79,7 @@ int main() {
     BankAccount acc("John Doe", 1000);
 
     try {
-        acc.eposit(500);
+        acc.deposit(500);
         acc.Withdraw(200);
         acc.Withdraw(2000);  
     } catch (const exception& e) {
