@@ -6,17 +6,17 @@ using namespace std;
 
 int main()
 {
-    int Intiger,i,j,Temp;
+    int Integer,i,j,Temp;
     vector<int>V1,V2;
-     cout<<"Enter your intiger array and pres 0 to stop"<<endl;
-     for(i=0;Intiger!=0;i++)
+     cout<<"Enter your Integer array and pres 0 to stop"<<endl;
+     for(i=0;Integer!=0;i++)
      {
-        cin>>Intiger;
-        if(Intiger!=0)
+        cin>>Integer;
+        if(Integer!=0)
         {
            
-            V1.push_back(Intiger);
-            V2.push_back(Intiger);
+            V1.push_back(Integer);
+            V2.push_back(Integer);
         }
      }
      reverse(V1.begin(),V1.end());
