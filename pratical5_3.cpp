@@ -1,46 +1,46 @@
 #include<iostream>
 using namespace std;
-class Cordinates
+class Coordinates
 {       public:
         int x,y;
-        void Get_cordinates()
+        void Get_Coordinates()
         {
             cout<<"Enter x and y coordinates e.g(x y) : ";
             cin>>x>>y;
         }
-        void operator+(Cordinates &c1)
+        void operator+(Coordinates &c1)
         {
-            Cordinates c;
+            Coordinates c;
             c.x=x+c1.x;
             c.y=y+c1.y;
-            cout<<"X cordinates : "<<c.x<<endl;
-            cout<<"Y cordinates : "<<c.y<<endl;
+            cout<<"X Coordinates : "<<c.x<<endl;
+            cout<<"Y Coordinates : "<<c.y<<endl;
         }
-        void operator-(Cordinates &c1)
+        void operator-(Coordinates &c1)
         {
-             Cordinates c;
+             Coordinates c;
             c.x=x-c1.x;
             c.y=y-c1.y;
-            cout<<"X cordinates : "<<c.x<<endl;
-            cout<<"Y cordinates : "<<c.y<<endl;;
+            cout<<"X Coordinates : "<<c.x<<endl;
+            cout<<"Y Coordinates : "<<c.y<<endl;;
 
         }
-        void operator==(Cordinates &c1)
+        void operator==(Coordinates &c1)
         {
            if(x==c1.x && y==c1.y)
-                    cout<<"The cordinates are equal"<<endl;
+                    cout<<"The Coordinates are equal"<<endl;
 
             else
-                 cout<<"The cordinates are not equal"<<endl;
+                 cout<<"The Coordinates are not equal"<<endl;
 
         }
 };
 int main()
 {
 
-    Cordinates N1,N2;
-    N1.Get_cordinates();
-    N2.Get_cordinates();
+    Coordinates N1,N2;
+    N1.Get_Coordinates();
+    N2.Get_Coordinates();
     N1+N2;
     N1-N2;
     N1==N2;
